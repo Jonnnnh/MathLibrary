@@ -8,13 +8,13 @@ public abstract class NDimensionalityOfSquareMatrix implements Matrix {
     protected int size;
 
     public NDimensionalityOfSquareMatrix(int size, float[][] values) {
-        if (!checkLengthInputValues(values, size)) {
+        if (!checkLengthInputValues(values, size)) { //
             throw new MathExceptions("Error in values!");
         }
         this.size = size;
         this.value = values;
     }
-    protected boolean checkLengthInputValues(float[][] values, int expectedSize) {
+    protected boolean checkLengthInputValues(float[][] values, int expectedSize) { //
         if (values.length != expectedSize) {
             return false;
         }
