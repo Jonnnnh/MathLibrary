@@ -5,27 +5,21 @@ import ru.vsu.cs.tulitskayte_d_v.math.matrix.MathExceptions;
 public class Vector3 extends NDimensionOfVector implements Vector {
 
     public Vector3() {
+        super(3, new float[3]);
     }
 
     public Vector3(Vector3 v){
-        super.values = v.values;
-        super.size = values.length;
+        super(3, v.getValues().clone());
     }
     public Vector3(float[] values) {
-        if (checkLengthInputValues(values)) {
-            super.values = values;
-            super.size = values.length;
-        } else throw new MathExceptions();
+        super(3, values); // Используем базовый конструктор для инициализации
+        if (!checkLengthInputValues(values)) {
+            throw new MathExceptions();
+        }
     }
 
     public Vector3(float v1, float v2, float v3) {
-        super.values = new float[3];
-
-        super.size = 3;
-
-        super.values[0] = v1;
-        super.values[1] = v2;
-        super.values[2] = v3;
+        super(3, new float[]{v1, v2, v3});
     }
 
     public void vectorCrossProduct(Vector v2) {

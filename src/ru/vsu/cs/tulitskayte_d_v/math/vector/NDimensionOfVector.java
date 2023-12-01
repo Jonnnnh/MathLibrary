@@ -6,13 +6,21 @@ public abstract class NDimensionOfVector implements Vector {
     protected int size;
     protected float[] values;
 
+    public NDimensionOfVector(int size, float[] values) {
+        if (values.length != size) {
+            throw new IllegalArgumentException("Invalid vector size");
+        }
+        this.size = size;
+        this.values = values;
+    }
+
     @Override
-    public Vector minusTwoVectors(final Vector v1, final Vector v2) {
+    public void minusTwoVectors(final Vector v1, final Vector v2) {
         if (v1 == null || v2 == null) {
-            throw new IllegalArgumentException("Один из векторов равен нулю");
+            throw new IllegalArgumentException("One of the vectors is equal to zero");
         }
         if (v1.getSize() != v2.getSize()) {
-            throw new IllegalArgumentException("Размеры векторов не совпадают");
+            throw new IllegalArgumentException("The dimensions of the vectors are not the same");
         }
         float[] tmp = new float[v1.getSize()];
         for (int i = 0; i < v1.getSize(); i++) {
@@ -22,14 +30,11 @@ public abstract class NDimensionOfVector implements Vector {
         this.values = tmp;
         this.size = tmp.length;
 
-        return this;
     }
 
     @Override
     public Vector productVectorOnScalar(final Vector v1, final float scalar) {
-
         float[] tmp = new float[v1.getSize()];
-
         for (int i = 0; i < v1.getSize(); i++) {
             tmp[i] = v1.getValues()[i] * scalar;
         }
@@ -86,80 +91,62 @@ public abstract class NDimensionOfVector implements Vector {
 
     @Override
     public void sumVectors(final Vector v2) {
-
         if (this.getSize() != v2.getSize()) {
             throw new MathExceptions();
         }
         float[] tmp = new float[this.getSize()];
-
         for (int i = 0; i < this.getSize(); i++) {
             tmp[i] = this.getValues()[i] + v2.getValues()[i];
         }
-
         this.values = tmp;
         this.size = tmp.length;
     }
 
     @Override
-    public Vector sumVectors(final Vector v1, final Vector v2) {
+    public void sumVectors(final Vector v1, final Vector v2) {
         if (v1.getSize() != v2.getSize()) {
             throw new MathExceptions();
         }
-
         float[] tmp = new float[v1.getSize()];
-
         for (int i = 0; i < v1.getSize(); i++) {
             tmp[i] = v1.getValues()[i] + v2.getValues()[i];
         }
-
         this.values = tmp;
         this.size = tmp.length;
-        return this;
     }
 
     @Override
     public void minusTwoVectors(final Vector v2) {
-
         if (this.getSize() != v2.getSize()) {
             throw new MathExceptions();
         }
-
         float[] tmp = new float[this.getSize()];
-
         for (int i = 0; i < this.getSize(); i++) {
             tmp[i] = this.getValues()[i] - v2.getValues()[i];
         }
-
         this.values = tmp;
         this.size = tmp.length;
     }
 
     @Override
     public void productVectorOnScalar(final float scalar) {
-
         float[] tmp = new float[this.getSize()];
-
         for (int i = 0; i < this.getSize(); i++) {
             tmp[i] = this.getValues()[i] * scalar;
         }
-
         this.values = tmp;
         this.size = tmp.length;
     }
 
     @Override
     public void divisionVectorOnScalar(final float scalar) {
-
         float[] tmp = new float[this.getSize()];
-
         if (scalar == 0) {
             throw new MathExceptions();
         }
-
         for (int i = 0; i < this.getSize(); i++) {
             tmp[i] = this.getValues()[i] / scalar;
         }
-
         this.values = tmp;
         this.size = tmp.length;
     }
@@ -176,7 +163,6 @@ public abstract class NDimensionOfVector implements Vector {
     @Override
     public Vector vectorNormalization() {
         float[] tmp = new float[this.getSize()];
-
         float length = this.vectorLength(this);
         for (int i = 0; i < this.getSize(); i++) {
             tmp[i] = this.getValues()[i] / length;

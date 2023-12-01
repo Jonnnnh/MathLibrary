@@ -29,7 +29,7 @@ public class VectorTest {
         assertArrayEquals(vectorValue, vector.getValues());
 
         vector = new Vector3();
-        assertNull(vector.getValues());
+        assertArrayEquals(new float[3], vector.getValues()); // ожидается пустой массив размером 3
     }
 
     @Test
@@ -47,9 +47,9 @@ public class VectorTest {
         assertEquals(4, vector.getSize());
 
         vector = new Vector2();
-        assertEquals(0, vector.getSize());
-
+        assertEquals(2, vector.getSize()); // ожидается размер 2, так как Vector2 всегда двумерный
     }
+
 
     @Test
     void testSetValues() {
@@ -229,6 +229,44 @@ public class VectorTest {
 
         assertEquals(2.56174, vector1.vectorDotProduct(vector2), exp);
 
+    }
+    @Test
+    void testProductVectorOnScalarNormalCase() {
+        float[] vectorValue = new float[]{1, 2, 3};
+        Vector vector = new Vector3(vectorValue);
+        float scalar = 2;
+
+        float[] expected = new float[]{2, 4, 6};
+        vector.productVectorOnScalar(scalar);
+        assertArrayEquals(expected, vector.getValues(), exp);
+    }
+    @Test
+    void testMinusTwoVectorsNormalCase() {
+        float[] vectorValueFirst = new float[]{4, 5, 6};
+        float[] vectorValueSecond = new float[]{1, 2, 3};
+        Vector vector1 = new Vector3(vectorValueFirst);
+        Vector vector2 = new Vector3(vectorValueSecond);
+
+        float[] expected = new float[]{3, 3, 3};
+        vector1.minusTwoVectors(vector2);
+        assertArrayEquals(expected, vector1.getValues(), exp);
+    }
+
+    @Test
+    void testMinusTwoVectorsDifferentSizes() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Vector vector1 = new Vector3(new float[]{1, 2, 3});
+            Vector vector2 = new Vector2(new float[]{1, 2});
+            vector1.minusTwoVectors(vector2);
+        });
+    }
+    @Test
+    void testMinusTwoVectorsNullVectors() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Vector vector1 = new Vector3(new float[]{1, 2, 3});
+            Vector vector2 = null;
+            new Vector3().minusTwoVectors(vector1, vector2);
+        });
     }
 }
 

@@ -8,10 +8,10 @@ public interface Vector {
     void setValues(final float[] values);
 
     void sumVectors(final Vector v2);
-    Vector sumVectors(final Vector v1, final Vector v2);
+    void sumVectors(final Vector v1, final Vector v2);
 
     void minusTwoVectors(final Vector v2);
-    Vector minusTwoVectors(final Vector v1,final Vector v2);
+    void minusTwoVectors(final Vector v1, final Vector v2);
 
     void productVectorOnScalar(final float scalar);
     Vector productVectorOnScalar(final Vector v1,final float scalar);
