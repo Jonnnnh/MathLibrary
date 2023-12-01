@@ -6,15 +6,11 @@ import ru.vsu.cs.tulitskayte_d_v.math.vector.Vector4;
 public class Matrix4 extends NDimensionalityOfSquareMatrix implements Matrix {
 
     public Matrix4(float[][] values) {
-        if (checkLengthInputValues(values)) {
-            super.value = values;
-            super.size = values.length;
-        } else {
-            throw new MathExceptions();
-        }
+        super(4, values);
     }
 
     public Matrix4(){
+        super(4, new float[4][4]); // Инициализируем пустую матрицу размером 4x4
     }
 
     @Override
@@ -42,8 +38,7 @@ public class Matrix4 extends NDimensionalityOfSquareMatrix implements Matrix {
 
     @Override
     protected boolean checkLengthInputValues(final float[][] values) {
-        return values.length == 4 && values[0].length == 4 && values[1].length == 4 &&
-                values[2].length == 4 && values[3].length == 4;
+        return super.isValidSize(values, 4);
     }
 
 

@@ -6,16 +6,11 @@ import ru.vsu.cs.tulitskayte_d_v.math.vector.Vector3;
 public class Matrix3 extends NDimensionalityOfSquareMatrix implements Matrix {
 
     public Matrix3(float[][] values) {
-        if (checkLengthInputValues(values)) {
-            super.value = values;
-            super.size = values.length;
-        } else {
-            throw new MathExceptions();
-        }
+        super(3, values);
     }
 
     public Matrix3() {
-
+        super(3, new float[3][3]);
     }
 
     @Override
@@ -29,7 +24,7 @@ public class Matrix3 extends NDimensionalityOfSquareMatrix implements Matrix {
     }
     @Override
     protected boolean checkLengthInputValues(final float[][] values) {
-        return values.length == 3 && values[0].length == 3 && values[1].length == 3 && values[2].length == 3;
+        return super.isValidSize(values, 3);
     }
     @Override
     public void setSingleMatrix() {

@@ -16,10 +16,10 @@ public class SquareMatrixTest {
     @Test
     void testGetSize() {
         Matrix m = new Matrix3();
-        assertEquals(0, m.getSize());
+        assertEquals(3, m.getSize());
 
         m = new Matrix4();
-        assertEquals(0, m.getSize());
+        assertEquals(4, m.getSize());
 
         float[][] matrix = new float[][]{
                 {1, 2, 3},
@@ -42,7 +42,7 @@ public class SquareMatrixTest {
     @Test
     void testGetValue() {
         Matrix m = new Matrix3();
-        assertNull(m.getValues());
+        assertArrayEquals(new float[3][3], m.getValues());
 
         float[][] matrix = new float[][]{
                 {1, 2, 3},

@@ -3,9 +3,29 @@ package ru.vsu.cs.tulitskayte_d_v.math.matrix;
 import ru.vsu.cs.tulitskayte_d_v.math.vector.Vector;
 
 public abstract class NDimensionalityOfSquareMatrix implements Matrix {
+
     protected float[][] value;
     protected int size = 0;
 
+    public NDimensionalityOfSquareMatrix(int size, float[][] values) {
+        if (!isValidSize(values, size)) {
+            throw new IllegalArgumentException("Invalid matrix size");
+        }
+        this.size = size;
+        this.value = values;
+    }
+
+    protected boolean isValidSize(float[][] values, int size) {
+        if (values.length != size) {
+            return false;
+        }
+        for (float[] row : values) {
+            if (row.length != size) {
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     public abstract void setZeroMatrix();
 
