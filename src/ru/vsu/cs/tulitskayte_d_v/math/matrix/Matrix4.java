@@ -10,7 +10,7 @@ public class Matrix4 extends NDimensionalityOfSquareMatrix implements Matrix {
     }
 
     public Matrix4(){
-        super(4, new float[4][4]); // Инициализируем пустую матрицу размером 4x4
+        super(4, new float[4][4]);
     }
 
     @Override
