@@ -95,6 +95,5 @@ public class Matrix3Test {
             Vector vectorRes = matrix.productMatrixOnVector(matrix, vector);
         });
         Assertions.assertEquals("Error in values!", thrown.getMessage());
-
     }
 }

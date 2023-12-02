@@ -4,27 +4,29 @@ import ru.vsu.cs.tulitskayte_d_v.math.vector.Vector;
 
 public abstract class NDimensionalityOfSquareMatrix implements Matrix {
 
-    protected float[][] value;
-    protected int size;
+    private float[][] value;
+    private final int size;
 
     public NDimensionalityOfSquareMatrix(int size, float[][] values) {
-        if (!checkLengthInputValues(values, size)) {
+        if (isInvalidLength(values, size)) {
             throw new MathExceptions("Error in values!");
         }
         this.size = size;
-        this.value = values;
+        setValue(values);
     }
-    protected boolean checkLengthInputValues(float[][] values, int expectedSize) { //
+
+    protected boolean isInvalidLength(float[][] values, int expectedSize) { //
         if (values.length != expectedSize) {
-            return false;
+            return true;
         }
         for (float[] row : values) {
             if (row.length != expectedSize) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
+
     protected boolean isValidSize(float[][] values, int size) {
         if (values.length != size) {
             return false;
@@ -36,6 +38,7 @@ public abstract class NDimensionalityOfSquareMatrix implements Matrix {
         }
         return true;
     }
+
     @Override
     public abstract void setZeroMatrix();
 
@@ -51,49 +54,56 @@ public abstract class NDimensionalityOfSquareMatrix implements Matrix {
 
     @Override
     public float[][] getValues() {
-        return value;
+        float[][] copy = new float[size][size];
+        for (int i = 0; i < size; i++) {
+            System.arraycopy(value[i], 0, copy[i], 0, size);
+        }
+        return copy;
     }
 
     @Override
-    public void  setValue(float[][] value) {
-        if (checkLengthInputValues(value)) {
-            this.value = value;
-            this.size = value.length;
-        } else throw new MathExceptions();
+    public void setValue(float[][] value) {
+        if (isInvalidLength(value, this.size)) {
+            throw new MathExceptions();
+        }
+        this.value = deepCopy(value);
     }
 
+    private float[][] deepCopy(float[][] original) {
+        float[][] copy = new float[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            copy[i] = original[i].clone();
+        }
+        return copy;
+    }
 
     @Override
     public Matrix sumMatrix(final Matrix m1, final Matrix m2) {
-
-        float[][] tmp = new float[m1.getSize()][m1.getSize()];
-
-        if (m1.getSize() != m2.getSize())
+        if (m1.getSize() != m2.getSize()) {
             throw new MathExceptions();
-
-        for (int i = 0; i < m1.getSize(); i++) {
-            for (int j = 0; j < m1.getSize(); j++) {
-                tmp[i][j] = m1.getValues()[i][j] + m2.getValues()[i][j];
+        }
+        float[][] result = new float[this.size][this.size];
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                result[i][j] = m1.getValues()[i][j] + m2.getValues()[i][j];
             }
         }
-
-        this.value = tmp;
+        this.setValue(result);
         return this;
     }
 
     @Override
     public Matrix minusMatrix(final Matrix m1, final Matrix m2) {
-        float[][] tmp = new float[m1.getSize()][m1.getSize()];
-        if (m1.getSize() != m2.getSize())
+        if (m1.getSize() != m2.getSize()) {
             throw new MathExceptions();
-        for (int i = 0; i < m1.getSize(); i++) {
-            for (int j = 0; j < m1.getSize(); j++) {
-                tmp[i][j] = m1.getValues()[i][j] - m2.getValues()[i][j];
+        }
+        float[][] result = new float[this.size][this.size];
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                result[i][j] = m1.getValues()[i][j] - m2.getValues()[i][j];
             }
         }
-
-
-        this.value = tmp;
+        this.setValue(result);
         return this;
     }
 
@@ -101,70 +111,61 @@ public abstract class NDimensionalityOfSquareMatrix implements Matrix {
     public abstract Vector productMatrixOnVector(final Matrix m1, final Vector v1);
 
     protected float[] getMatrixAfterProductMatrixOnVector(final Matrix m1, final Vector v1) {
-
-        float[] tmp = new float[m1.getSize()];
-
-        if (m1.getSize() == v1.getSize()) {
-            for (int i = 0; i < m1.getSize(); i++) {
-                for (int j = 0; j < m1.getSize(); j++) {
-                    tmp[i] = tmp[i] + m1.getValues()[i][j] * v1.getValues()[j];
-                }
+        if (m1.getSize() != v1.getSize()) {
+            throw new MathExceptions();
+        }
+        float[] result = new float[m1.getSize()];
+        for (int i = 0; i < m1.getSize(); i++) {
+            for (int j = 0; j < m1.getSize(); j++) {
+                result[i] += m1.getValues()[i][j] * v1.getValues()[j];
             }
-        } else throw new MathExceptions();
-
-        return tmp;
-
+        }
+        return result;
     }
 
     @Override
     public void productOnMatrix(final Matrix m1) {
-        float[][] tmp = new float[this.getSize()][this.getSize()];
-        if (m1.getSize() == this.getSize()) {
-            for (int i = 0; i < m1.getSize(); i++) {
-                for (int j = 0; j < m1.getSize(); j++) {
-                    for (int k = 0; k < m1.getSize(); k++) {
-                        tmp[i][j] += this.getValues()[i][k] * m1.getValues()[k][j];
-                    }
+        if (m1.getSize() != this.getSize()) {
+            throw new MathExceptions();
+        }
+        float[][] result = new float[this.size][this.size];
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                for (int k = 0; k < this.size; k++) {
+                    result[i][j] += this.getValues()[i][k] * m1.getValues()[k][j];
                 }
             }
-        } else throw new MathExceptions();
+        }
 
-        this.value = tmp;
-        this.size = tmp.length;
+        this.setValue(result);
     }
-
 
     @Override
     public Matrix productTwoMatrix(final Matrix m1, final Matrix m2) {
-
-        float[][] tmp = new float[m1.getSize()][m1.getSize()];
-
-        if (m1.getSize() == m2.getSize()) {
-            for (int i = 0; i < m1.getSize(); i++) {
-                for (int j = 0; j < m1.getSize(); j++) {
-                    for (int k = 0; k < m1.getSize(); k++) {
-                        tmp[i][j] += m1.getValues()[i][k] * m2.getValues()[k][j];
-                    }
+        if (m1.getSize() != m2.getSize()) {
+            throw new MathExceptions();
+        }
+        float[][] result = new float[this.size][this.size];
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                for (int k = 0; k < this.size; k++) {
+                    result[i][j] += m1.getValues()[i][k] * m2.getValues()[k][j];
                 }
             }
-        } else throw new MathExceptions();
-
-        this.value = tmp;
+        }
+        this.setValue(result);
         return this;
     }
 
     @Override
     public Matrix transpose(final Matrix m) {
-        float[][] tmp = new float[m.getSize()][m.getSize()];
-
+        float[][] result = new float[m.getSize()][m.getSize()];
         for (int i = 0; i < m.getSize(); i++) {
             for (int j = 0; j < m.getSize(); j++) {
-                tmp[j][i] = m.getValues()[i][j];
+                result[j][i] = m.getValues()[i][j];
             }
         }
-
-        this.value = tmp;
+        this.setValue(result);
         return this;
     }
-
 }

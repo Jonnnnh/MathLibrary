@@ -15,25 +15,22 @@ public class Matrix4 extends NDimensionalityOfSquareMatrix implements Matrix {
 
     @Override
     public void setZeroMatrix() {
-        super.size = 4;
-        super.value = new float[][]{
+        setValue(new float[][]{
                 {0, 0, 0, 0},
                 {0, 0, 0, 0},
                 {0, 0, 0, 0},
                 {0, 0, 0, 0}
-        };
+        });
     }
 
     @Override
     public void setSingleMatrix() {
-        super.size = 4;
-        super.value = new float[][]{
+        setValue(new float[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
-        };
-
+        });
     }
 
     @Override
@@ -41,13 +38,11 @@ public class Matrix4 extends NDimensionalityOfSquareMatrix implements Matrix {
         return super.isValidSize(values, 4);
     }
 
-
     @Override
     public Vector productMatrixOnVector(final Matrix m1, final Vector v1) {
         Vector vRes = new Vector4();
         float[] tmp = super.getMatrixAfterProductMatrixOnVector(m1, v1);
         vRes.setValues(tmp);
         return vRes;
-
     }
 }

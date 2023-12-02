@@ -15,26 +15,25 @@ public class Matrix3 extends NDimensionalityOfSquareMatrix implements Matrix {
 
     @Override
     public void setZeroMatrix() {
-        super.size = 3;
-        super.value = new float[][]{
+        setValue(new float[][]{
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0}
-        };
+        });
     }
-    @Override
-    protected boolean checkLengthInputValues(final float[][] values) {
-        return super.isValidSize(values, 3);
-    }
+
     @Override
     public void setSingleMatrix() {
-        super.size = 3;
-        super.value = new float[][]{
+        setValue(new float[][]{
                 {1, 0, 0},
                 {0, 1, 0},
                 {0, 0, 1}
-        };
+        });
+    }
 
+    @Override
+    protected boolean checkLengthInputValues(final float[][] values) {
+        return super.isValidSize(values, 3);
     }
 
     @Override
