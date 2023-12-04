@@ -3,7 +3,6 @@ package ru.vsu.cs.tulitskayte_d_v.math.matrix;
 import ru.vsu.cs.tulitskayte_d_v.math.vector.Vector;
 
 public abstract class NDimensionalityOfSquareMatrix implements Matrix {
-
     private float[][] value;
     private final int size;
 
@@ -15,7 +14,7 @@ public abstract class NDimensionalityOfSquareMatrix implements Matrix {
         setValue(values);
     }
 
-    protected boolean isInvalidLength(float[][] values, int expectedSize) { //
+    protected boolean isInvalidLength(float[][] values, int expectedSize) {
         if (values.length != expectedSize) {
             return true;
         }

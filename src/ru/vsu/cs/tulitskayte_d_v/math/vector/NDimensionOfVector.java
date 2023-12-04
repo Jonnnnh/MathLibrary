@@ -11,7 +11,7 @@ public abstract class NDimensionOfVector implements Vector {
             throw new IllegalArgumentException("Invalid vector size");
         }
         this.size = size;
-        this.values = values;
+        this.values = values; // нарушена инкапсуляция
     }
 
     @Override

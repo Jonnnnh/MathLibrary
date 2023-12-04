@@ -16,6 +16,12 @@ public class VectorTest {
     @Test
     void testGetValues() {
 
+        /*Vector3 x  = new Vector3();
+        Vector2 y = new Vector2();
+        Vector4 z = new Vector4();
+        z.vectorCrossProduct(x, y);
+        x.minusTwoVectors(z, z);*/
+
         float[] vectorValue = new float[]{1, 2};
         Vector vector = new Vector2(vectorValue);
         assertArrayEquals(vectorValue, vector.getValues());
